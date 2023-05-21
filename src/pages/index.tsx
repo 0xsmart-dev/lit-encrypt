@@ -68,37 +68,35 @@ export default function Home() {
   const encrypt = async () => {
     if (!docString) return notify.warning("Please Upload file!");
     console.log("docString", docString);
-    setLoading("Encrypt File...");
-    // try {
-    const authSig = await LitJsSdk.checkAndSignAuthMessage({ chain: chain });
-    console.log(authSig);
-    const { encryptedString, symmetricKey } = await LitJsSdk.encryptString(
-      docString
-    );
-    console.log(encryptedString);
-    const encryptedStringBase64 = uint8arrayToString(
-      new Uint8Array(await encryptedString.arrayBuffer()),
-      "base64"
-    );
-    const encSymmetricKey = await window.litNodeClient.saveEncryptionKey({
-      accessControlConditions,
-      symmetricKey,
-      authSig,
-      chain,
-    });
-    const encSymmetricStringBase64 = uint8arrayToString(
-      encSymmetricKey,
-      "base64"
-    );
-    setEncryptedSymmetricKey(encSymmetricStringBase64);
-    console.log(encSymmetricStringBase64);
-    setEncrypted(encryptedStringBase64);
-    setLoading("");
-    notify.success("Encrypted Successfully.");
-    // } catch (error: any) {
-    //   notify.error("Encrypting Failed.");
-    // }
-    setLoading("");
+    try {
+      const authSig = await LitJsSdk.checkAndSignAuthMessage({ chain: chain });
+      console.log(authSig);
+      const { encryptedString, symmetricKey } = await LitJsSdk.encryptString(
+        docString
+      );
+      console.log(encryptedString);
+      const encryptedStringBase64 = uint8arrayToString(
+        new Uint8Array(await encryptedString.arrayBuffer()),
+        "base64"
+      );
+      const encSymmetricKey = await window.litNodeClient.saveEncryptionKey({
+        accessControlConditions,
+        symmetricKey,
+        authSig,
+        chain,
+      });
+      const encSymmetricStringBase64 = uint8arrayToString(
+        encSymmetricKey,
+        "base64"
+      );
+      setEncryptedSymmetricKey(encSymmetricStringBase64);
+      console.log(encSymmetricStringBase64);
+      setEncrypted(encryptedStringBase64);
+      setLoading("");
+      notify.success("Encrypted Successfully.");
+    } catch (error: any) {
+      notify.error("Encrypting Failed.");
+    }
   };
 
   const downloadEncrypted = async () => {
