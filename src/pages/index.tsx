@@ -68,6 +68,7 @@ export default function Home() {
   const encrypt = async () => {
     if (!docString) return notify.warning("Please Upload file!");
     console.log("docString", docString);
+    setLoading("Encrypt File...");
     try {
       const authSig = await LitJsSdk.checkAndSignAuthMessage({ chain: chain });
       console.log(authSig);
@@ -97,6 +98,7 @@ export default function Home() {
     } catch (error: any) {
       notify.error("Encrypting Failed.");
     }
+    setLoading("");
   };
 
   const downloadEncrypted = async () => {
