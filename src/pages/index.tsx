@@ -69,9 +69,11 @@ export default function Home() {
     setLoading("Encrypt File...");
     try {
       const authSig = await LitJsSdk.checkAndSignAuthMessage({ chain: chain });
+      console.log(authSig);
       const { encryptedString, symmetricKey } = await LitJsSdk.encryptString(
         docString
       );
+      console.log(encryptedString);
       const encryptedStringBase64 = uint8arrayToString(
         new Uint8Array(await encryptedString.arrayBuffer()),
         "base64"
@@ -88,6 +90,7 @@ export default function Home() {
         "base64"
       );
       setEncryptedSymmetricKey(encSymmetricStringBase64);
+      console.log(encSymmetricStringBase64);
       setEncrypted(encryptedStringBase64);
       setLoading("");
       notify.success("Encrypted Successfully.");
