@@ -1,7 +1,7 @@
+//@ts-nocheck
 import React, { useEffect, useState, useRef, useContext } from "react";
 import { saveAs } from "file-saver";
 import { CopyToClipboard } from "react-copy-to-clipboard";
-//@ts-ignore
 import LitJsSdk from "lit-js-sdk";
 
 import { toString as uint8arrayToString } from "uint8arrays/to-string";
@@ -29,9 +29,11 @@ export default function Home() {
     async function init() {
       //INIT LIT CLIENT
       const client = new LitJsSdk.LitNodeClient();
-      await client.connect();
+      const connection = await client.connect();
+      console.log(connection);
       //@ts-ignore
       window.litNodeClient = client;
+      console.log(client);
     }
     init();
   }, []);
@@ -79,7 +81,6 @@ export default function Home() {
       new Uint8Array(await encryptedString.arrayBuffer()),
       "base64"
     );
-    //@ts-ignore
     const encSymmetricKey = await window.litNodeClient.saveEncryptionKey({
       accessControlConditions,
       symmetricKey,
