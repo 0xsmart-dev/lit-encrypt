@@ -1,8 +1,8 @@
 import React, { useEffect, useState, useRef, useContext } from "react";
 import { saveAs } from "file-saver";
 import { CopyToClipboard } from "react-copy-to-clipboard";
-
-import * as LitJsSdk from "@lit-protocol/lit-node-client";
+//@ts-ignore
+import LitJsSdk from "lit-js-sdk";
 
 import { toString as uint8arrayToString } from "uint8arrays/to-string";
 
@@ -26,14 +26,14 @@ export default function Home() {
   const { setLoading } = useContext(LoadingContext);
 
   useEffect(() => {
-    // async function init() {
-    //   //INIT LIT CLIENT
-    //   const client = new LitJsSdk.LitNodeClient();
-    //   await client.connect();
-    //   //@ts-ignore
-    //   window.litNodeClient = client;
-    // }
-    // init();
+    async function init() {
+      //INIT LIT CLIENT
+      const client = new LitJsSdk.LitNodeClient();
+      await client.connect();
+      //@ts-ignore
+      window.litNodeClient = client;
+    }
+    init();
   }, []);
   const retrieveFile = async (e: any) => {
     setLoading("Upload File...");
