@@ -29,8 +29,7 @@ export default function Home() {
     async function init() {
       //INIT LIT CLIENT
       const client = new LitJsSdk.LitNodeClient();
-      const connection = await client.connect();
-      console.log(connection);
+      await client.connect();
       //@ts-ignore
       window.litNodeClient = client;
       console.log(client);
